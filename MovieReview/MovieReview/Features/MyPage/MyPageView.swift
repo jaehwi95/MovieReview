@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
+@ViewAction(for: MyPageFeature.self)
 struct MyPageView: View {
-    @ObservedObject var viewModel: MainViewModel
-    @EnvironmentObject var router: Router
+    let store: StoreOf<MyPageFeature>
     
     var body: some View {
         Text("Hello, MyPageView!")
@@ -17,5 +18,7 @@ struct MyPageView: View {
 }
 
 #Preview {
-    MyPageView(viewModel: .init())
+    MyPageView(store: Store(initialState: MyPageFeature.State(), reducer: {
+        MyPageFeature()
+    }))
 }

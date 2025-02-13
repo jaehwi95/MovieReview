@@ -6,14 +6,17 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct MovieReviewApp: App {
     var body: some Scene {
         WindowGroup {
-            RouterView {
-                MainView(viewModel: .init())
-            }
+            RootView(
+                store: Store(initialState: RootFeature.State()) {
+                    RootFeature()._printChanges()
+                }
+            )
         }
     }
 }
