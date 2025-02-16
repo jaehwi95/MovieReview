@@ -8,7 +8,6 @@
 import SwiftUI
 import ComposableArchitecture
 
-@ViewAction(for: RootFeature.self)
 struct RootView: View {
     @Bindable var store: StoreOf<RootFeature>
     
@@ -16,29 +15,12 @@ struct RootView: View {
         NavigationStack(
             path: $store.scope(state: \.path, action: \.path),
             root: {
-                TabView(selection: Binding(
-                    get: { store.currentTab },
-                    set: { send(.selectTab($0)) }
-                )) {
-                    HomeView(
-                        store: store.scope(state: \.home, action: \.home)
-                    )
-                    .tabItem {
-                        Image(systemName: "house")
-                    }
-                    .tag(RootFeature.Tab.home)
-                    
-                    MyPageView(
-                        store: store.scope(state: \.myPage, action: \.myPage)
-                    )
-                    .tabItem {
-                        Image(systemName: "person")
-                    }
-                    .tag(RootFeature.Tab.myPage)
-                }
+                MainView(store: store.scope(state: \.main, action: \.main))
             },
             destination: { store in
                 switch store.case {
+                case .main(let store):
+                    MainView(store: store)
                 case .home(let store):
                     HomeView(store: store)
                 case .myPage(let store):
