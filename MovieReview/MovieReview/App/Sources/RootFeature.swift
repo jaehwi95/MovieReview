@@ -9,6 +9,8 @@ import ComposableArchitecture
 
 @Reducer
 struct RootFeature {
+    @Dependency(\.movieClient) var movieClient
+    
     enum Tab: Equatable, Hashable { case home, myPage }
     
     @ObservableState
@@ -29,11 +31,13 @@ struct RootFeature {
         case home(HomeFeature.Action)
         case myPage(MyPageFeature.Action)
         case path(StackActionOf<Path>)
+        case print(NowPlayingResult)
         case view(View)
         
         @CasePathable
         enum View: Equatable {
             case selectTab(Tab)
+            case onAppear
         }
     }
     
@@ -51,10 +55,29 @@ struct RootFeature {
                 return .none
             case .path:
                 return .none
+            case .print(let nowPlayingResult):
+                print(nowPlayingResult)
+                return .none
             case .view(.selectTab(let newTab)):
                 state.currentTab = newTab
                 return .none
+            case .view(.onAppear):
+                return .run { send in
+                    await send(getNowPlayingMovies())
+                }
             }
+        }
+    }
+}
+
+private extension RootFeature {
+    func getNowPlayingMovies() async -> Action {
+        let result = await movieClient.nowPlaying()
+        switch result {
+        case .success(let nowPlayingMovies):
+            return .print(nowPlayingMovies)
+        case .failure:
+            return .home(.setLoading(false))
         }
     }
 }

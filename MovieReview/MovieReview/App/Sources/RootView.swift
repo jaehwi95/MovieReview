@@ -36,6 +36,9 @@ struct RootView: View {
                     }
                     .tag(RootFeature.Tab.myPage)
                 }
+                .onAppear {
+                    send(.onAppear)
+                }
             },
             destination: { store in
                 switch store.case {

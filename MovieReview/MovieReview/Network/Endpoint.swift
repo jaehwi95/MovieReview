@@ -20,8 +20,10 @@ enum HTTPMethod: String {
 
 extension Endpoint {
     var header: [String: String] {
-        // TOOD: input accessToken
-        let accessToken: String = ""
+        guard let apiToken = Bundle.main.object(forInfoDictionaryKey: "API_AUTH_TOKEN") as? String else {
+            return [:]
+        }
+        let accessToken: String = "\(apiToken)"
         
         return [
             "Authorization": "Bearer \(accessToken)"
@@ -30,7 +32,7 @@ extension Endpoint {
     
     var urlRequest: URLRequest {
         get throws {
-            guard var url: URL = URL(string: baseURL)?.appending(path: path) else {
+            guard let url: URL = URL(string: baseURL)?.appending(path: path) else {
                 throw NetworkError(type: .invalidURL, path: path)
             }
             
