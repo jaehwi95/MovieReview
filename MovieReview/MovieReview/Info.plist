@@ -6,6 +6,7 @@
 	<string>$(API_AUTH_TOKEN)</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Pretendard-Medium.ttf</string>
 		<string>Pretendard-Bold.ttf</string>
 		<string>Pretendard-SemiBold.ttf</string>
 	</array>
