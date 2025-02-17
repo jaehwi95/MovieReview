@@ -9,7 +9,7 @@ import ComposableArchitecture
 
 @Reducer
 struct MainFeature {
-    enum Tab: Equatable, Hashable { case home, myPage }
+    enum Tab { case home, myPage }
     
     @ObservableState
     struct State {
