@@ -17,33 +17,31 @@ struct MainView: View {
             get: { store.currentTab },
             set: { send(.selectTab($0)) }
         )) {
-            Group {
-                HomeView(
-                    store: store.scope(state: \.home, action: \.home)
+            HomeView(
+                store: store.scope(state: \.home, action: \.home)
+            )
+            .tabItem {
+                tabItem(
+                    labelText: "HOME",
+                    selectedImageResource: .prographyHouseSelected,
+                    unselectedImageResource: .prographyHouse,
+                    isSelcted: store.currentTab == .home
                 )
-                .tabItem {
-                    tabItem(
-                        labelText: "HOME",
-                        selectedImageResource: .prographyHouseSelected,
-                        unselectedImageResource: .prographyHouse,
-                        isSelcted: store.currentTab == .home
-                    )
-                }
-                .tag(MainFeature.Tab.home)
-                
-                MyPageView(
-                    store: store.scope(state: \.myPage, action: \.myPage)
-                )
-                .tabItem {
-                    tabItem(
-                        labelText: "MY",
-                        selectedImageResource: .prographyStarSelected,
-                        unselectedImageResource: .prographyStar,
-                        isSelcted: store.currentTab == .myPage
-                    )
-                }
-                .tag(MainFeature.Tab.myPage)
             }
+            .tag(MainFeature.Tab.home)
+            
+            MyPageView(
+                store: store.scope(state: \.myPage, action: \.myPage)
+            )
+            .tabItem {
+                tabItem(
+                    labelText: "MY",
+                    selectedImageResource: .prographyStarSelected,
+                    unselectedImageResource: .prographyStar,
+                    isSelcted: store.currentTab == .myPage
+                )
+            }
+            .tag(MainFeature.Tab.myPage)
         }
         .tint(.prographyRed)
         .onAppear {

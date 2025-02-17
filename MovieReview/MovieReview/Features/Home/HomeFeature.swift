@@ -10,20 +10,26 @@ import ComposableArchitecture
 @Reducer
 struct HomeFeature {
     @Dependency(\.movieClient) var movieClient
+    enum Tab: String, CaseIterable {
+        case nowPlaying = "Now Playing"
+        case popular = "Popular"
+        case topRated = "Top Rated"
+    }
     
     @ObservableState
     struct State {
         var isLoading: Bool = false
+        var currentTab: Tab = .nowPlaying
     }
     
     enum Action: ViewAction {
         case setLoading(Bool)
-        case print(NowPlayingResult)
         case view(View)
         
         @CasePathable
         enum View {
             case onAppear
+            case selectTab(Tab)
         }
     }
     
@@ -33,13 +39,13 @@ struct HomeFeature {
             case .setLoading(let isLoading):
                 state.isLoading = isLoading
                 return .none
-            case .print(let nowPlayingResult):
-                print(nowPlayingResult)
-                return .none
             case .view(.onAppear):
                 return .run { send in
                     await send(getNowPlayingMovies())
                 }
+            case .view(.selectTab(let tab)):
+                state.currentTab = tab
+                return .none
             }
         }
     }
@@ -50,7 +56,8 @@ private extension HomeFeature {
         let result = await movieClient.nowPlaying()
         switch result {
         case .success(let nowPlayingMovies):
-            return .print(nowPlayingMovies)
+            print(nowPlayingMovies)
+            return .setLoading(false)
         case .failure:
             return .setLoading(false)
         }
