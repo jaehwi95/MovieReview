@@ -8,9 +8,9 @@
 import Foundation
 
 enum MovieEndpoint: Endpoint {
-    case nowPlaying
-    case popular
-    case topRated
+    case nowPlaying(String)
+    case popular(String)
+    case topRated(String)
     case movieInformation(String)
     case movieImage(String)
 }
@@ -48,6 +48,16 @@ extension MovieEndpoint {
         case .topRated: .GET
         case .movieInformation: .GET
         case .movieImage: .GET
+        }
+    }
+    
+    var queryParameters: [String : String]? {
+        switch self {
+        case .nowPlaying(let page): ["page": "\(page)"]
+        case .popular(let page): ["page": "\(page)"]
+        case .topRated(let page): ["page": "\(page)"]
+        case .movieInformation: nil
+        case .movieImage: nil
         }
     }
 }

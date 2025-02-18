@@ -54,14 +54,19 @@ struct MovieResult: Decodable {
 }
 
 extension NowPlayingResponse {
-    var toModel: NowPlayingResult {
+    var toModel: MoviesModel {
         return .init(
             movieItems: results?.map { movie in
                 MovieItem(
                     id: movie.id,
                     backdropPath: movie.backdropPath,
                     posterPath: movie.posterPath,
-                    title: movie.title
+                    title: movie.title,
+                    overview: movie.overview,
+                    rate: movie.voteAverage,
+                    genres: movie.genreIDs?.compactMap { genreID in
+                        Genre(rawValue: genreID)
+                    } ?? []
                 )
             } ?? []
         )
