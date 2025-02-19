@@ -24,6 +24,7 @@ struct HomeFeature {
         var popularMovies: [MovieItem] = []
         var topRatedMovies: [MovieItem] = []
         var currentPage: Int = 1
+        var isInitial: Bool = true
     }
     
     enum Action: ViewAction {
@@ -37,6 +38,8 @@ struct HomeFeature {
         enum View {
             case onAppear
             case selectTab(Tab)
+            case onLastMovieViewed
+            case onMovieTapped(MovieItem)
         }
     }
     
@@ -47,29 +50,53 @@ struct HomeFeature {
                 state.isLoading = isLoading
                 return .none
             case .fetchedNowPlayingMovies(let nowPlayingMovies):
-                state.nowPlayingMovies = nowPlayingMovies
+                state.nowPlayingMovies += nowPlayingMovies
                 return .none
             case .fetchedPopularMovies(let popularMovies):
-                state.popularMovies = popularMovies
+                state.popularMovies += popularMovies
                 return .none
             case .fetchedTopRatedMovies(let topRatedMovies):
-                state.topRatedMovies = topRatedMovies
+                state.topRatedMovies += topRatedMovies
                 return .none
             case .view(.onAppear):
-                let page = state.currentPage
-                return .merge([
-                    .run { send in
-                        await send(fetchNowPlayingMovies(page: page))
-                    },
-                    .run { send in
-                        await send(fetchPopularMovies(page: page))
-                    },
-                    .run { send in
-                        await send(fetchTopRatedMovies(page: page))
-                    }
-                ])
+                if state.isInitial {
+                    state.isInitial = false
+                    let page = state.currentPage
+                    return .merge([
+                        .run { send in
+                            await send(fetchNowPlayingMovies(page: page))
+                        },
+                        .run { send in
+                            await send(fetchPopularMovies(page: page))
+                        },
+                        .run { send in
+                            await send(fetchTopRatedMovies(page: page))
+                        }
+                    ])
+                } else {
+                    return .none
+                }
             case .view(.selectTab(let tab)):
                 state.currentTab = tab
+                return .none
+            case .view(.onLastMovieViewed):
+                state.currentPage += 1
+                let page = state.currentPage
+                switch state.currentTab {
+                case .nowPlaying:
+                    return .run { send in
+                        await send(fetchNowPlayingMovies(page: page))
+                    }
+                case .popular:
+                    return .run { send in
+                        await send(fetchPopularMovies(page: page))
+                    }
+                case .topRated:
+                    return .run { send in
+                        await send(fetchTopRatedMovies(page: page))
+                    }
+                }
+            case .view(.onMovieTapped(let movieItem)):
                 return .none
             }
         }

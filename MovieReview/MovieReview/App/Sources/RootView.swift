@@ -35,5 +35,12 @@ struct RootView: View {
                 }
             }
         )
+        .onAppear {
+            let appearance = UINavigationBarAppearance()
+            appearance.shadowColor = .clear
+            appearance.backgroundColor = .prographyM3White
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        }
     }
 }

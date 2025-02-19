@@ -14,9 +14,15 @@ struct HomeView: View {
     let store: StoreOf<HomeFeature>
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            carouselView
-            topTabBarView
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
+                carouselView
+                Section {
+                    movieListView
+                } header: {
+                    headerView
+                }
+            }
         }
         .onAppear {
             send(.onAppear)
@@ -29,11 +35,15 @@ private extension HomeView {
         ScrollView(.horizontal) {
             LazyHStack(alignment: .top) {
                 ForEach(store.nowPlayingMovies, id: \.self.id) { movieItem in
-                    posterImageView(
-                        backdropPath: movieItem.backdropPath,
-                        title: movieItem.title,
-                        overview: movieItem.overview
-                    )
+                    Button {
+                        send(.onMovieTapped(movieItem))
+                    } label: {
+                        backdropImageView(
+                            backdropPath: movieItem.backdropPath,
+                            title: movieItem.title,
+                            overview: movieItem.overview
+                        )
+                    }
                 }
             }
             .frame(height: 205)
@@ -45,7 +55,7 @@ private extension HomeView {
         .padding(.vertical, 8)
     }
     
-    func posterImageView(backdropPath: String?, title: String?, overview: String?) -> some View {
+    func backdropImageView(backdropPath: String?, title: String?, overview: String?) -> some View {
         return LazyImage(url: URL(string: Constant.imageURL + (backdropPath ?? ""))) { imageState in
             if let image = imageState.image {
                 image
@@ -79,83 +89,60 @@ private extension HomeView {
 }
 
 private extension HomeView {
-    var topTabBarView: some View {
-        VStack(alignment: .center, spacing: 0) {
-            HStack(alignment: .center, spacing: 0) {
-                ForEach(HomeFeature.Tab.allCases, id: \.self) { tab in
-                    Button {
-                        send(.selectTab(tab))
-                    } label: {
-                        Text(tab.rawValue)
-                            .font(PrographyFont.pretendardBold14)
-                            .fixedLineHeight(lineHeight: 20, fontSize: 14)
-                            .foregroundStyle(store.currentTab == tab ? .prographyRed : .prographyOnSurfaceVariant)
-                            .padding(.top, 14)
-                            .padding(.bottom, 11)
-                            .overlay(
-                                Rectangle()
-                                    .frame(height: 3)
-                                    .foregroundStyle(store.currentTab == tab ? Color.prographyRed : Color.clear),
-                                alignment: .bottom
-                            )
-                    }
-                    .frame(maxWidth: .infinity)
+    var headerView: some View {
+        HStack(alignment: .center, spacing: 0) {
+            ForEach(HomeFeature.Tab.allCases, id: \.self) { tab in
+                Button {
+                    send(.selectTab(tab))
+                } label: {
+                    Text(tab.rawValue)
+                        .font(PrographyFont.pretendardBold14)
+                        .fixedLineHeight(lineHeight: 20, fontSize: 14)
+                        .foregroundStyle(store.currentTab == tab ? .prographyRed : .prographyOnSurfaceVariant)
+                        .padding(.top, 14)
+                        .padding(.bottom, 11)
+                        .overlay(
+                            Rectangle()
+                                .frame(height: 3)
+                                .foregroundStyle(store.currentTab == tab ? Color.prographyRed : Color.clear),
+                            alignment: .bottom
+                        )
                 }
+                .frame(maxWidth: .infinity)
             }
             .padding(.vertical, 8)
-            
-            TabView(selection: Binding(
-                get: { store.currentTab },
-                set: { send(.selectTab($0)) }
-            )) {
-                ScrollView {
-                    VStack {
-                        ForEach(store.nowPlayingMovies, id: \.self.id) { movieItem in
-                            movieItemView(
-                                posterPath: movieItem.posterPath,
-                                title: movieItem.title,
-                                overview: movieItem.overview,
-                                rate: movieItem.rate,
-                                genres: movieItem.genres
-                            )
-                        }
-                    }
-                }
-                .tag(HomeFeature.Tab.nowPlaying)
-                
-                ScrollView {
-                    VStack {
-                        ForEach(store.popularMovies, id: \.self.id) { movieItem in
-                            movieItemView(
-                                posterPath: movieItem.posterPath,
-                                title: movieItem.title,
-                                overview: movieItem.overview,
-                                rate: movieItem.rate,
-                                genres: movieItem.genres
-                            )
-                        }
-                    }
-                }
-                .tag(HomeFeature.Tab.popular)
-                
-                ScrollView {
-                    VStack {
-                        ForEach(store.topRatedMovies, id: \.self.id) { movieItem in
-                            movieItemView(
-                                posterPath: movieItem.posterPath,
-                                title: movieItem.title,
-                                overview: movieItem.overview,
-                                rate: movieItem.rate,
-                                genres: movieItem.genres
-                            )
-                        }
-                    }
-                }
-                .tag(HomeFeature.Tab.topRated)
-            }
-            .tint(.prographyRed)
-            .tabViewStyle(.page(indexDisplayMode: .never))
         }
+        .padding(.vertical, 8)
+        .background(.prographyM3White)
+    }
+    
+    var movieListView: some View {
+        let movieList = switch store.currentTab {
+        case .nowPlaying: store.nowPlayingMovies
+        case .popular: store.popularMovies
+        case .topRated: store.topRatedMovies
+        }
+        
+        return ForEach(Array(zip(movieList.indices, movieList)), id: \.0) { index, movieItem in
+            Button {
+                send(.onMovieTapped(movieItem))
+            } label: {
+                movieItemView(
+                    posterPath: movieItem.posterPath,
+                    title: movieItem.title,
+                    overview: movieItem.overview,
+                    rate: movieItem.rate,
+                    genres: movieItem.genres
+                )
+            }
+            .onAppear {
+                if index == movieList.indices.last {
+                    send(.onLastMovieViewed)
+                }
+            }
+        }
+        .padding(.vertical, 8)
+        .padding(.horizontal, 16)
     }
     
     func movieItemView(posterPath: String?, title: String?, overview: String?, rate: Double?, genres: [Genre]?) -> some View {
