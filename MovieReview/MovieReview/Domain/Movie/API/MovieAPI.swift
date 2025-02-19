@@ -9,7 +9,9 @@ import Foundation
 import ComposableArchitecture
 
 struct MovieClient {
-    var nowPlaying: () async -> Result<NowPlayingResult, NetworkError>
+    var nowPlaying: (Int) async -> Result<MoviesModel, NetworkError>
+    var popular: (Int) async -> Result<MoviesModel, NetworkError>
+    var topRated: (Int) async -> Result<MoviesModel, NetworkError>
 }
 
 extension DependencyValues {
@@ -21,10 +23,32 @@ extension DependencyValues {
 
 extension MovieClient: DependencyKey {
     static var liveValue = MovieClient(
-        nowPlaying: {
-            let endpoint: Endpoint = MovieEndpoint.nowPlaying
+        nowPlaying: { page in
+            let endpoint: Endpoint = MovieEndpoint.nowPlaying(String(page))
             do {
                 let response: NowPlayingResponse = try await NetworkProvider.request(endpoint: endpoint)
+                return .success(response.toModel)
+            } catch let error as NetworkError {
+                return .failure(error)
+            } catch {
+                return .failure(NetworkError(type: .unknown, path: endpoint.path))
+            }
+        },
+        popular: { page in
+            let endpoint: Endpoint = MovieEndpoint.popular(String(page))
+            do {
+                let response: PopularResponse = try await NetworkProvider.request(endpoint: endpoint)
+                return .success(response.toModel)
+            } catch let error as NetworkError {
+                return .failure(error)
+            } catch {
+                return .failure(NetworkError(type: .unknown, path: endpoint.path))
+            }
+        },
+        topRated: { page in
+            let endpoint: Endpoint = MovieEndpoint.topRated(String(page))
+            do {
+                let response: TopRatedResponse = try await NetworkProvider.request(endpoint: endpoint)
                 return .success(response.toModel)
             } catch let error as NetworkError {
                 return .failure(error)

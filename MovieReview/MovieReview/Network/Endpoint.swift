@@ -12,6 +12,7 @@ protocol Endpoint {
     var path: String { get }
     var method: HTTPMethod { get }
     var header: [String: String] { get }
+    var queryParameters: [String: String]? { get }
 }
 
 enum HTTPMethod: String {
@@ -30,10 +31,19 @@ extension Endpoint {
         ]
     }
     
+    var queryParameters: [String: String]? { nil }
+    
     var urlRequest: URLRequest {
         get throws {
-            guard let url: URL = URL(string: baseURL)?.appending(path: path) else {
+            guard var url: URL = URL(string: baseURL)?.appending(path: path) else {
                 throw NetworkError(type: .invalidURL, path: path)
+            }
+            
+            if let queryParameters {
+                let queryItems = queryParameters.map { queryItem in
+                    URLQueryItem(name: queryItem.key, value: queryItem.value)
+                }
+                url.append(queryItems: queryItems)
             }
             
             var urlRequest: URLRequest = URLRequest(url: url)

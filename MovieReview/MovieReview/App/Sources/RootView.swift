@@ -16,6 +16,13 @@ struct RootView: View {
             path: $store.scope(state: \.path, action: \.path),
             root: {
                 MainView(store: store.scope(state: \.main, action: \.main))
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            Image(.prographyLogo)
+                                .padding(.vertical, 16)
+                        }
+                    }
             },
             destination: { store in
                 switch store.case {
@@ -28,11 +35,12 @@ struct RootView: View {
                 }
             }
         )
+        .onAppear {
+            let appearance = UINavigationBarAppearance()
+            appearance.shadowColor = .clear
+            appearance.backgroundColor = .prographyM3White
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        }
     }
-}
-
-#Preview {
-    RootView(store: Store(initialState: RootFeature.State(), reducer: {
-        RootFeature()
-    }))
 }

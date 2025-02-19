@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		193DAF042D64AC5A002AD0B6 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 193DAF032D64AC5A002AD0B6 /* NukeUI */; };
 		1974BA682D5E6B08002FAE5F /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 1974BA672D5E6B08002FAE5F /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1974BA682D5E6B08002FAE5F /* ComposableArchitecture in Frameworks */,
+				193DAF042D64AC5A002AD0B6 /* NukeUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +86,7 @@
 			name = MovieReview;
 			packageProductDependencies = (
 				1974BA672D5E6B08002FAE5F /* ComposableArchitecture */,
+				193DAF032D64AC5A002AD0B6 /* NukeUI */,
 			);
 			productName = MovieReview;
 			productReference = 194345DF2D5DFED0001E512A /* MovieReview.app */;
@@ -115,6 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				1974BA662D5E6B08002FAE5F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				193DAF022D64AC5A002AD0B6 /* XCRemoteSwiftPackageReference "Nuke" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 194345E02D5DFED0001E512A /* Products */;
@@ -368,6 +372,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		193DAF022D64AC5A002AD0B6 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.8.0;
+			};
+		};
 		1974BA662D5E6B08002FAE5F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
@@ -379,6 +391,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		193DAF032D64AC5A002AD0B6 /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 193DAF022D64AC5A002AD0B6 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
+		};
 		1974BA672D5E6B08002FAE5F /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1974BA662D5E6B08002FAE5F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;

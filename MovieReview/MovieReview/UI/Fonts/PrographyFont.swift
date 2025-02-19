@@ -16,5 +16,6 @@ extension PrographyFont {
     static var pretendardBold16: Font = .custom("Pretendard-Bold", size: 16)
     static var pretendardBold14: Font = .custom("Pretendard-Bold", size: 14)
     static var pretendardSemiBold11: Font = .custom("Pretendard-SemiBold", size: 11)
+    static var pretendardSemiBold14: Font = .custom("Pretendard-SemiBold", size: 14)
     static var pretendardMedium12: Font = .custom("Pretendard-Medium", size: 12)
 }
