@@ -18,7 +18,6 @@ struct HomeFeature {
     
     @ObservableState
     struct State {
-        var isLoading: Bool = false
         var currentTab: Tab = .nowPlaying
         var nowPlayingMovies: [MovieItem] = []
         var popularMovies: [MovieItem] = []
@@ -47,7 +46,7 @@ struct HomeFeature {
         Reduce { state, action in
             switch action {
             case .setLoading(let isLoading):
-                state.isLoading = isLoading
+                // TODO: handle errors
                 return .none
             case .fetchedNowPlayingMovies(let nowPlayingMovies):
                 state.nowPlayingMovies += nowPlayingMovies
@@ -97,6 +96,7 @@ struct HomeFeature {
                     }
                 }
             case .view(.onMovieTapped(let movieItem)):
+                // TODO: on movie tapped navigate
                 return .none
             }
         }

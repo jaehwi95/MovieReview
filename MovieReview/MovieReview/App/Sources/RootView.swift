@@ -32,6 +32,8 @@ struct RootView: View {
                     HomeView(store: store)
                 case .myPage(let store):
                     MyPageView(store: store)
+                case .detail(let store):
+                    DetailView(store: store)
                 }
             }
         )

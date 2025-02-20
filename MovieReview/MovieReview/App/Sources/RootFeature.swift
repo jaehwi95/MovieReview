@@ -20,12 +20,11 @@ struct RootFeature {
         case main(MainFeature)
         case home(HomeFeature)
         case myPage(MyPageFeature)
+        case detail(DetailFeature)
     }
     
     enum Action {
         case main(MainFeature.Action)
-        case home(HomeFeature.Action)
-        case myPage(MyPageFeature.Action)
         case path(StackActionOf<Path>)
     }
     
@@ -36,11 +35,26 @@ struct RootFeature {
         
         Reduce { state, action in
             switch action {
-            case .main, .home, .myPage:
+            case .main(let mainAction):
+                switch mainAction {
+                case .home(let homeAction):
+                    switch homeAction {
+                    case .view(.onMovieTapped(let movieItem)):
+                        state.path.append(.detail(DetailFeature.State(movieID: movieItem.id)))
+                        return .none
+                    default:
+                        return .none
+                    }
+                default:
+                    return .none
+                }
+            case .path(.element(_, .detail(.view(.onBackButtonTapped)))):
+                state.path.removeLast()
                 return .none
             case .path:
                 return .none
             }
         }
+        .forEach(\.path, action: \.path)
     }
 }
