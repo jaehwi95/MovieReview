@@ -10,7 +10,7 @@ import Foundation
 struct LocalMovieProvider {
     private static let key = "movieData"
     
-    private static func loadSavedMovies() -> [LocalMovieData] {
+    static func loadSavedMovies() -> [LocalMovieData] {
         guard let data = UserDefaults.standard.data(forKey: key),
               let decoded = try? JSONDecoder().decode([LocalMovieData].self, from: data)
         else {

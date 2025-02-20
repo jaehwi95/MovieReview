@@ -45,6 +45,16 @@ struct RootFeature {
                     default:
                         return .none
                     }
+                case .myPage(let myPageAction):
+                    switch myPageAction {
+                    case .view(.onMovieTapped(let movieItem)):
+                        if let movieID = Int(movieItem.movieID) {
+                            state.path.append(.detail(DetailFeature.State(movieID: movieID)))
+                        }
+                        return .none
+                    default:
+                        return .none
+                    }
                 default:
                     return .none
                 }

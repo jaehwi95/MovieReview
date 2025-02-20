@@ -117,7 +117,9 @@ private extension DetailView {
         HStack(spacing: 4) {
             ForEach(0...4, id: \.self) { number in
                 let isSelected = (store.starRating ?? -1) >= number
-                let starImage = isSelected ? Image(.prographyStarSelected) : Image(.prographyStarGray)
+                let starImage = isSelected ?
+                    Image(.prographyStarSelected).resizable().frame(width: 40, height: 40) :
+                    Image(.prographyStarGray).resizable().frame(width: 40, height: 40)
                 
                 if store.isStarRated {
                     starImage
