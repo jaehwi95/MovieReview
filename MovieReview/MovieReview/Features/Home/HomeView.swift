@@ -48,9 +48,9 @@ private extension HomeView {
             }
             .frame(height: 205)
             .padding(.horizontal, 16)
-            .scrollTargetLayout()
-            .scrollIndicators(.hidden)
         }
+        .scrollTargetLayout()
+        .scrollIndicators(.hidden)
         .scrollTargetBehavior(.viewAligned)
         .padding(.vertical, 8)
     }
@@ -159,31 +159,12 @@ private extension HomeView {
                     .foregroundStyle(.prographyOnSurfaceVariant)
                     .lineLimit(2)
                     .truncationMode(.tail)
-                if let rate = rate {
-                    Text(String(format: "%.1f", rate))
-                        .font(PrographyFont.pretendardSemiBold14)
-                        .fixedLineHeight(lineHeight: 20, fontSize: 14)
-                        .foregroundStyle(.prographyOnSurfaceVariant)
-                } else {
-                    Text("-.-")
-                        .font(PrographyFont.pretendardSemiBold14)
-                        .fixedLineHeight(lineHeight: 20, fontSize: 14)
-                        .foregroundStyle(.prographyOnSurfaceVariant)
-                }
+                Text(rate.toRateText())
+                    .font(PrographyFont.pretendardSemiBold14)
+                    .fixedLineHeight(lineHeight: 20, fontSize: 14)
+                    .foregroundStyle(.prographyOnSurfaceVariant)
                 if let genres = genres {
-                    HStack(spacing: 5.33) {
-                        ForEach(genres, id: \.self) { genre in
-                            Text(genre.name)
-                                .font(PrographyFont.pretendardSemiBold11)
-                                .fixedLineHeight(lineHeight: 13, fontSize: 11)
-                                .foregroundStyle(.prographyOnSurfaceVariant)
-                                .padding(4)
-                                .overlay {
-                                    Capsule()
-                                        .stroke(Color.prographyRed, lineWidth: 1)
-                                }
-                        }
-                    }
+                    Chips(texts: genres.map { $0.name })
                 }
             }
         }
