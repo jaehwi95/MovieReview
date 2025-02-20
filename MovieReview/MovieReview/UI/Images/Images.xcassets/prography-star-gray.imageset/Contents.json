@@ -1,6 +1,7 @@
 {
-  "colors" : [
+  "images" : [
     {
+      "filename" : "prography-star-gray.svg",
       "idiom" : "universal"
     }
   ],

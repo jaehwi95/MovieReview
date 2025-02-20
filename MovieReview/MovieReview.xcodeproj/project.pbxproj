@@ -6,13 +6,31 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		193DAF042D64AC5A002AD0B6 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 193DAF032D64AC5A002AD0B6 /* NukeUI */; };
+		1974BA682D5E6B08002FAE5F /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 1974BA672D5E6B08002FAE5F /* ComposableArchitecture */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		194345DF2D5DFED0001E512A /* MovieReview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieReview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		1974B9FD2D5E0E91002FAE5F /* Exceptions for "MovieReview" folder in "MovieReview" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 194345DE2D5DFED0001E512A /* MovieReview */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		194345E12D5DFED0001E512A /* MovieReview */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1974B9FD2D5E0E91002FAE5F /* Exceptions for "MovieReview" folder in "MovieReview" target */,
+			);
 			path = MovieReview;
 			sourceTree = "<group>";
 		};
@@ -23,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1974BA682D5E6B08002FAE5F /* ComposableArchitecture in Frameworks */,
+				193DAF042D64AC5A002AD0B6 /* NukeUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +85,8 @@
 			);
 			name = MovieReview;
 			packageProductDependencies = (
+				1974BA672D5E6B08002FAE5F /* ComposableArchitecture */,
+				193DAF032D64AC5A002AD0B6 /* NukeUI */,
 			);
 			productName = MovieReview;
 			productReference = 194345DF2D5DFED0001E512A /* MovieReview.app */;
@@ -94,6 +116,10 @@
 			);
 			mainGroup = 194345D62D5DFED0001E512A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1974BA662D5E6B08002FAE5F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				193DAF022D64AC5A002AD0B6 /* XCRemoteSwiftPackageReference "Nuke" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 194345E02D5DFED0001E512A /* Products */;
 			projectDirPath = "";
@@ -127,6 +153,8 @@
 /* Begin XCBuildConfiguration section */
 		194345EB2D5DFED0001E512A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 194345E12D5DFED0001E512A /* MovieReview */;
+			baseConfigurationReferenceRelativePath = App/Resources/Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -190,6 +218,8 @@
 		};
 		194345EC2D5DFED0001E512A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 194345E12D5DFED0001E512A /* MovieReview */;
+			baseConfigurationReferenceRelativePath = App/Resources/Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -246,6 +276,8 @@
 		};
 		194345EE2D5DFED0001E512A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 194345E12D5DFED0001E512A /* MovieReview */;
+			baseConfigurationReferenceRelativePath = App/Resources/Secrets.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -255,6 +287,7 @@
 				DEVELOPMENT_TEAM = 6973WVKMZ8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MovieReview/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -280,6 +313,8 @@
 		};
 		194345EF2D5DFED0001E512A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 194345E12D5DFED0001E512A /* MovieReview */;
+			baseConfigurationReferenceRelativePath = App/Resources/Secrets.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -289,6 +324,7 @@
 				DEVELOPMENT_TEAM = 6973WVKMZ8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MovieReview/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -334,6 +370,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		193DAF022D64AC5A002AD0B6 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.8.0;
+			};
+		};
+		1974BA662D5E6B08002FAE5F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.17.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		193DAF032D64AC5A002AD0B6 /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 193DAF022D64AC5A002AD0B6 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
+		};
+		1974BA672D5E6B08002FAE5F /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1974BA662D5E6B08002FAE5F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 194345D72D5DFED0001E512A /* Project object */;
 }
