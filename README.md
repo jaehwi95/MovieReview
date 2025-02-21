@@ -34,6 +34,13 @@ MovieReview
 │── UI/                      # 공통 UI 컴포넌트
 └── Util/                    # 유틸리티 기능 (날짜 포맷 변환 등)
 ```
+### Demo
+
+| Main Screen | Detail Screen |
+|-----------|-----------|
+| ![Main](Images/start-seeDetail.gif) | ![Detail](Images/tabChange-filter.gif) |
+| ![Main](Images/carousel.gif) | ![Detail](detailEdit-delete.gif) |
+| ![Main](Images/infiniteScroll.gif) | |
 
 ## 화면 스크린샷
 
