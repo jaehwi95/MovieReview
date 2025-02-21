@@ -11,22 +11,62 @@ import NukeUI
 
 @ViewAction(for: HomeFeature.self)
 struct HomeView: View {
-    let store: StoreOf<HomeFeature>
+    @Bindable var store: StoreOf<HomeFeature>
+    @State private var isShowCarousel = true
+    @State private var lastOffset: CGFloat = 0
+    @State private var isScrollingDown = false
+    @State private var isScrollTop = true
     
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
-                carouselView
+                if isShowCarousel {
+                    carouselView
+                        .transition(
+                            .asymmetric(
+                                insertion: .push(from: .top),
+                                removal: .push(from: .bottom)
+                            )
+                        )
+                }
                 Section {
                     movieListView
                 } header: {
                     headerView
                 }
             }
+            .background {
+                GeometryReader { proxy in
+                    let minY = proxy.frame(in: .named("ScrollView")).minY
+                    Color.clear
+                        .onAppear {
+                            lastOffset = minY
+                        }
+                        .onChange(of: minY) { oldVal, newVal in
+                            if newVal < oldVal {
+                                if !isScrollingDown && !isScrollTop {
+                                    isScrollingDown = true
+                                    isShowCarousel = false
+                                }
+                            } else if newVal >= 0 {
+                                isScrollTop = true
+                                isScrollingDown = false
+                                isShowCarousel = true
+                            } else {
+                                isScrollTop = false
+                            }
+                            lastOffset = newVal
+                        }
+                }
+            }
         }
+        .coordinateSpace(name: "ScrollView")
+        .padding(.top, 1)
         .onAppear {
             send(.onAppear)
         }
+        .animation(.easeInOut, value: isShowCarousel)
+        .alert($store.scope(state: \.alert, action: \.alert))
     }
 }
 

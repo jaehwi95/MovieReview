@@ -14,7 +14,7 @@ struct MovieReviewApp: App {
         WindowGroup {
             RootView(
                 store: Store(initialState: RootFeature.State()) {
-                    RootFeature()._printChanges()
+                    RootFeature()
                 }
             )
             .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
