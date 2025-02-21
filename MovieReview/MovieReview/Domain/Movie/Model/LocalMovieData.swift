@@ -7,9 +7,11 @@
 
 import Foundation
 
-struct LocalMovieData: Codable, Equatable {
+struct LocalMovieData: Codable, Equatable, Hashable {
     let movieID: String
-    var starRating: Int
-    var reviewComment: String
-    var savedDateString: String
+    let starRating: Int
+    let reviewComment: String
+    let savedDateString: String
+    let posterPath: String
+    let title: String
 }

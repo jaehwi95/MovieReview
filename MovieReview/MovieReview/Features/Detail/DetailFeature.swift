@@ -63,7 +63,9 @@ struct DetailFeature: Reducer {
                     movieID: state.movieID ?? "",
                     starRating: state.starRating ?? 0,
                     reviewComment: state.commentText,
-                    savedDateString: Date.now.toDateText()
+                    savedDateString: Date.now.toDateText(),
+                    posterPath: state.movieInformation?.posterPath ?? "",
+                    title: state.movieInformation?.title ?? ""
                 )
                 LocalMovieProvider.saveMovie(localMovieData)
                 state.isStarRated = true

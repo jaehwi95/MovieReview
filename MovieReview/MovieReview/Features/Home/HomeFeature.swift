@@ -95,8 +95,7 @@ struct HomeFeature {
                         await send(fetchTopRatedMovies(page: page))
                     }
                 }
-            case .view(.onMovieTapped(let movieItem)):
-                // TODO: on movie tapped navigate
+            case .view(.onMovieTapped):
                 return .none
             }
         }
