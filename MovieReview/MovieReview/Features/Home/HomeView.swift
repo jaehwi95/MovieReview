@@ -11,7 +11,7 @@ import NukeUI
 
 @ViewAction(for: HomeFeature.self)
 struct HomeView: View {
-    let store: StoreOf<HomeFeature>
+    @Bindable var store: StoreOf<HomeFeature>
     @State private var isShowCarousel = true
     @State private var lastOffset: CGFloat = 0
     @State private var isScrollingDown = false
@@ -66,6 +66,7 @@ struct HomeView: View {
             send(.onAppear)
         }
         .animation(.easeInOut, value: isShowCarousel)
+        .alert($store.scope(state: \.alert, action: \.alert))
     }
 }
 

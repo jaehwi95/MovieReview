@@ -14,9 +14,9 @@ struct DetailFeature: Reducer {
     
     @ObservableState
     struct State {
+        @Presents var alert: AlertState<Action.Alert>?
         var isStarRated: Bool = false
         var movieID: String? = nil
-        var isLoading: Bool = false
         var movieInformation: MovieInfoModel? = nil
         var starRating: Int? = nil
         var commentText: String = ""
@@ -30,12 +30,14 @@ struct DetailFeature: Reducer {
     }
     
     enum Action: ViewAction, BindableAction {
-        case setLoading(Bool)
         case fetchedMovieInformation(MovieInfoModel)
         case saveMovieData
         case checkLocalMovieData(String)
         case view(View)
         case binding(BindingAction<State>)
+        case alert(PresentationAction<Alert>)
+        
+        enum Alert: Equatable {}
         
         @CasePathable
         enum View {
@@ -45,6 +47,7 @@ struct DetailFeature: Reducer {
             case onSaveTapped
             case onEditTapped
             case onDeleteTapped
+            case showErrorAlert(NetworkError)
         }
     }
     
@@ -52,9 +55,6 @@ struct DetailFeature: Reducer {
         BindingReducer()
         Reduce { state, action in
             switch action {
-            case .setLoading(let isLoading):
-                state.isLoading = isLoading
-                return .none
             case .fetchedMovieInformation(let movieInformation):
                 state.movieInformation = movieInformation
                 return .none
@@ -114,8 +114,17 @@ struct DetailFeature: Reducer {
                 return .send(.view(.onBackButtonTapped))
             case .binding:
                 return .none
+            case .view(.showErrorAlert(let networkError)):
+                state.alert = AlertState {
+                    TextState("\(networkError.type.errorMessage)")
+                }
+                return .none
+            case .alert:
+                state.alert = nil
+                return .none
             }
         }
+        .ifLet(\.$alert, action: \.alert)
     }
 }
 
@@ -125,8 +134,8 @@ private extension DetailFeature {
         switch result {
         case .success(let movieInformation):
             return .fetchedMovieInformation(movieInformation)
-        case .failure:
-            return .setLoading(false)
+        case .failure(let networkError):
+            return .view(.showErrorAlert(networkError))
         }
     }
 }
