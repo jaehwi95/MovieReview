@@ -14,70 +14,76 @@ struct DetailView: View {
     @Bindable var store: StoreOf<DetailFeature>
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 10) {
-                detailPosterView
-                starRatingView
-                VStack(alignment: .leading, spacing: 8) {
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(spacing: 10) {
+                    detailPosterView
+                    starRatingView
                     VStack(alignment: .leading, spacing: 8) {
-                        titleView
-                        if let genres = store.movieInformation?.genres {
-                            Chips(texts: genres.map { $0.name })
+                        VStack(alignment: .leading, spacing: 8) {
+                            titleView
+                            if let genres = store.movieInformation?.genres {
+                                Chips(texts: genres.map { $0.name })
+                            }
+                            descriptionView
                         }
-                        descriptionView
+                        .padding(.vertical, 13.5)
+                        commentView
                     }
-                    .padding(.vertical, 13.5)
-                    commentView
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 16)
+                    
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal, 16)
-            }
-            .onAppear {
-                send(.onAppear)
-            }
-        }
-        .navigationBarBackButtonHidden()
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    send(.onBackButtonTapped)
-                } label: {
-                    Image(.prographyArrowLeft)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .padding(.vertical, 14)
+                .padding(.bottom, 60)
+                .id("bottom")
+                .onAppear {
+                    send(.onAppear)
                 }
             }
-            ToolbarItem(placement: .principal) {
-                Image(.prographyLogo)
-                    .padding(.vertical, 16)
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                if store.isStarRated {
-                    Menu {
-                        Button {
-                            send(.onEditTapped)
-                        } label: {
-                            Text("수정하기")
-                        }
-                        Button(role: .destructive) {
-                            send(.onDeleteTapped)
-                        } label: {
-                            Text("삭제하기")
-                        }
+            .navigationBarBackButtonHidden()
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        send(.onBackButtonTapped)
                     } label: {
-                        Image(.prographyEllipsis)
+                        Image(.prographyArrowLeft)
                             .resizable()
-                            .frame(width: 28, height: 28)
-                            .padding(.vertical, 12)
+                            .frame(width: 24, height: 24)
+                            .padding(.vertical, 14)
                     }
-                } else {
-                    Button("저장") {
-                        send(.onSaveTapped)
+                }
+                ToolbarItem(placement: .principal) {
+                    Image(.prographyLogo)
+                        .padding(.vertical, 16)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    if store.isStarRated {
+                        Menu {
+                            Button {
+                                send(.onEditTapped)
+                            } label: {
+                                Text("수정하기")
+                            }
+                            Button(role: .destructive) {
+                                send(.onDeleteTapped)
+                            } label: {
+                                Text("삭제하기")
+                            }
+                        } label: {
+                            Image(.prographyEllipsis)
+                                .resizable()
+                                .frame(width: 28, height: 28)
+                                .padding(.vertical, 12)
+                        }
+                    } else {
+                        Button("저장") {
+                            send(.onSaveTapped)
+                        }
                     }
                 }
             }
+            .scrollToBottomOnKeyboard(proxy: proxy)
         }
     }
 }
@@ -116,7 +122,7 @@ private extension DetailView {
     var starRatingView: some View {
         HStack(spacing: 4) {
             ForEach(0...4, id: \.self) { number in
-                let isSelected = (store.starRating ?? -1) >= number
+                let isSelected = ((store.starRating ?? 0) - 1) >= number
                 let starImage = isSelected ?
                     Image(.prographyStarSelected).resizable().frame(width: 40, height: 40) :
                     Image(.prographyStarGray).resizable().frame(width: 40, height: 40)

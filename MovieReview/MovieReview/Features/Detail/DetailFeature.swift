@@ -92,7 +92,15 @@ struct DetailFeature: Reducer {
             case .view(.onBackButtonTapped):
                 return .none
             case .view(.onStarTapped(let starIndex)):
-                state.starRating = starIndex
+                if starIndex == 0 {
+                    if state.starRating == 0 || state.starRating == nil {
+                        state.starRating = 1
+                    } else {
+                        state.starRating = 0
+                    }
+                } else {
+                    state.starRating = starIndex+1
+                }
                 return .none
             case .view(.onSaveTapped):
                 return .send(.saveMovieData)
