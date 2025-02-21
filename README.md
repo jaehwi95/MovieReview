@@ -2,6 +2,15 @@
 
 프로그라피 10기 iOS 과제전형 
 
+## 앱 실행 방법
+
+API 키를 포함한 *.xcconfig 파일 추가:  
+`MovieReview/App/Resources/Secrets.xcconfig`
+```
+  API_AUTH_TOKEN = xxxxxxxxxxxxxxxxxx
+```
+API 키는 [The MovieDB Website](https://developer.themoviedb.org/docs/getting-started)에서 발급받을 수 있습니다.
+
 ## 주요 기술 스택
 
 - SwiftUI: 선언형 UI 구현
@@ -36,8 +45,8 @@ MovieReview
 
 ## Supported Platforms
 
-- iOS 17.0
-- Xcode 16.2
+![iOS 17+](https://img.shields.io/badge/iOS-17%2B-blue)
+![Xcode 16.2+](https://img.shields.io/badge/Xcode-16.2%2B-blue)
 
 ## License
 
