@@ -30,9 +30,9 @@ MovieReview
 
 | Home Screen | My Screen | Detail Screen |
 |------------|---------------|----------------|
-| ![Home](Images/main.png) | ![My](images/mypage.png) | ![Detail](images/detail-saved.png) |
-| ![Home](Images/main-list.png) | ![My](images/mypage-dropdown.png) | ![Detail](images/detail-menu.png) |
-|  | ![My](images/mypage-filtered.png) | ![Detail](images/detail-edit.png) |
+| ![Home](Images/main.PNG) | ![My](Images/mypage.PNG) | ![Detail](Images/detail-saved.PNG) |
+| ![Home](Images/main-list.PNG) | ![My](Images/mypage-dropdown.PNG) | ![Detail](Images/detail-menu.PNG) |
+|  | ![My](Images/mypage-filtered.PNG) | ![Detail](Images/detail-edit.PNG) |
 
 ## Supported Platforms
 
