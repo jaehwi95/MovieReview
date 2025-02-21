@@ -18,6 +18,7 @@ struct HomeFeature {
     
     @ObservableState
     struct State {
+        @Presents var alert: AlertState<Action.Alert>?
         var currentTab: Tab = .nowPlaying
         var nowPlayingMovies: [MovieItem] = []
         var popularMovies: [MovieItem] = []
@@ -27,11 +28,13 @@ struct HomeFeature {
     }
     
     enum Action: ViewAction {
-        case setLoading(Bool)
         case fetchedNowPlayingMovies([MovieItem])
         case fetchedPopularMovies([MovieItem])
         case fetchedTopRatedMovies([MovieItem])
         case view(View)
+        case alert(PresentationAction<Alert>)
+        
+        enum Alert: Equatable {}
         
         @CasePathable
         enum View {
@@ -39,15 +42,13 @@ struct HomeFeature {
             case selectTab(Tab)
             case onLastMovieViewed
             case onMovieTapped(MovieItem)
+            case showErrorAlert(NetworkError)
         }
     }
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .setLoading(let isLoading):
-                // TODO: handle errors
-                return .none
             case .fetchedNowPlayingMovies(let nowPlayingMovies):
                 state.nowPlayingMovies += nowPlayingMovies
                 return .none
@@ -97,8 +98,17 @@ struct HomeFeature {
                 }
             case .view(.onMovieTapped):
                 return .none
+            case .view(.showErrorAlert(let networkError)):
+                state.alert = AlertState {
+                    TextState("\(networkError.type.errorMessage)")
+                }
+                return .none
+            case .alert:
+                state.alert = nil
+                return .none
             }
         }
+        .ifLet(\.$alert, action: \.alert)
     }
 }
 
@@ -108,8 +118,8 @@ private extension HomeFeature {
         switch result {
         case .success(let moviesModel):
             return .fetchedNowPlayingMovies(moviesModel.movieItems)
-        case .failure:
-            return .setLoading(false)
+        case .failure(let networkError):
+            return .view(.showErrorAlert(networkError))
         }
     }
     
@@ -118,8 +128,8 @@ private extension HomeFeature {
         switch result {
         case .success(let moviesModel):
             return .fetchedPopularMovies(moviesModel.movieItems)
-        case .failure:
-            return .setLoading(false)
+        case .failure(let networkError):
+            return .view(.showErrorAlert(networkError))
         }
     }
     
@@ -128,8 +138,8 @@ private extension HomeFeature {
         switch result {
         case .success(let moviesModel):
             return .fetchedTopRatedMovies(moviesModel.movieItems)
-        case .failure:
-            return .setLoading(false)
+        case .failure(let networkError):
+            return .view(.showErrorAlert(networkError))
         }
     }
 }

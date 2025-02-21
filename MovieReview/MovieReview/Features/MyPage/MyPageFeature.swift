@@ -21,14 +21,12 @@ struct MyPageFeature: Reducer {
     
     @ObservableState
     struct State {
-        var isLoading: Bool = false
         var savedMovies: [LocalMovieData] = []
         var filteredMovies: [LocalMovieData] = []
         var selectedOption: RatingOption = .all
     }
     
     enum Action: ViewAction, BindableAction {
-        case setLoading(Bool)
         case view(View)
         case binding(BindingAction<State>)
         
@@ -43,9 +41,6 @@ struct MyPageFeature: Reducer {
         BindingReducer()
         Reduce { state, action in
             switch action {
-            case .setLoading(let isLoading):
-                state.isLoading = isLoading
-                return .none
             case .view(.onAppear):
                 let savedMovies = LocalMovieProvider.loadSavedMovies()
                 state.savedMovies = savedMovies

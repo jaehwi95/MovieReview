@@ -25,7 +25,6 @@ struct MainFeature {
         
         @CasePathable
         enum View {
-            case onAppear
             case selectTab(Tab)
         }
     }
@@ -41,8 +40,6 @@ struct MainFeature {
         Reduce { state, action in
             switch action {
             case .home, .myPage:
-                return .none
-            case .view(.onAppear):
                 return .none
             case .view(.selectTab(let tab)):
                 state.currentTab = tab
