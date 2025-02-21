@@ -14,9 +14,10 @@ API 키는 [The MovieDB Website](https://developer.themoviedb.org/docs/getting-s
 ## 주요 기술 스택
 
 - SwiftUI: 선언형 UI 구현
-- TCA (The Composable Architecture): 단방향 상태 관리 및 기능 모듈화
-- async/await (Swift Concurrency): 비동기 네트워크 요청 및 데이터 처리
-- NukeUI: 네트워크 이미지 로딩 및 캐싱
+- UserDefaults: 로컬 데이터베이스 관리
+- Swift Concurrency: 비동기 네트워크 요청 및 데이터 처리
+- [TCA (The Composable Architecture)](https://github.com/pointfreeco/swift-composable-architecture): 단방향 상태 관리, 기능 모듈화, 의존성 주입
+- [NukeUI](https://github.com/kean/NukeUI): 네트워크 이미지 로딩 및 캐싱
 
 ## 프로젝트 폴더 구조
 
