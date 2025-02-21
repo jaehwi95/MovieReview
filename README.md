@@ -39,7 +39,7 @@ MovieReview
 | Main Screen | Detail Screen |
 |-----------|-----------|
 | ![Main](Images/start-seeDetail.gif) | ![Detail](Images/tabChange-filter.gif) |
-| ![Main](Images/carousel.gif) | ![Detail](detailEdit-delete.gif) |
+| ![Main](Images/carousel.gif) | ![Detail](Images/detailEdit-delete.gif) |
 | ![Main](Images/infiniteScroll.gif) | |
 
 ## 화면 스크린샷
