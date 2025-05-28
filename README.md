@@ -1,4 +1,4 @@
-#  프로그라피-MovieReview
+#  MovieReview
 
 프로그라피 10기 iOS 과제전형
 - 현재 상영 중, 인기, 최고 평점 영화 조회
